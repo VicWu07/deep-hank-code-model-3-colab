@@ -30,6 +30,12 @@ Note on repo location:
 - `REPO_STORAGE="ephemeral"` (default) keeps code at `/content/workspace/repo` (faster, not in Drive).
 - `REPO_STORAGE="drive"` stores code under `DRIVE_REPO_DIR` so it is visible and persistent in Google Drive.
 
+Prebuilt one-click notebooks (run all, no parameter edits needed):
+
+- `colab/run_exact_chi_1p000.ipynb`
+- `colab/run_exact_chi_1p500.ipynb`
+- `colab/run_exact_chi_2p000.ipynb`
+
 ## 3) Parallel chi jobs
 
 Use one runtime/session per chi. Keep unique `LABEL` values or chi values so output folders/logs do not collide.
