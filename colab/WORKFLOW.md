@@ -21,7 +21,14 @@ Commit/push to GitHub after local validation.
 1. Open `colab/run_exact_chi.ipynb` in VS Code.
 2. Select a Colab runtime in the kernel picker.
 3. Fill in `REPO_URL` and run parameters.
-4. Run notebook cells to mount Drive, pull latest code, install deps, verify CUDA, and launch the run.
+4. For first run in a fresh runtime, use `SYNC_CODE=True` and `INSTALL_DEPS=True`.
+5. For repeated chi runs in the same runtime, set `SYNC_CODE=False` and `INSTALL_DEPS=False` to skip heavy setup.
+6. Run notebook cells to mount Drive, prepare repo, verify CUDA, and launch the run.
+
+Note on repo location:
+
+- `REPO_STORAGE="ephemeral"` (default) keeps code at `/content/workspace/repo` (faster, not in Drive).
+- `REPO_STORAGE="drive"` stores code under `DRIVE_REPO_DIR` so it is visible and persistent in Google Drive.
 
 ## 3) Parallel chi jobs
 
@@ -36,4 +43,3 @@ Each run should produce:
 - `consumption_benchmark_4panel.png`
 - `checkpoints/`
 - `snapshots/`
-
