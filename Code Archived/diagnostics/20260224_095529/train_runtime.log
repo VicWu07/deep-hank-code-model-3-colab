@@ -1,0 +1,6 @@
+{"step": 10, "phase": "phase0_warmstart", "loss": 29.642181396484375, "warmstart_mse": 29.642181396484375}
+{"step": 20, "phase": "phase0_warmstart", "loss": 14.571589469909668, "warmstart_mse": 14.571589469909668}
+{"step": 30, "phase": "phase1_steady", "loss": 5709.91650390625, "residual_mse": 57.09916687011719, "shape_loss": 1.8547720173955895e-05}
+{"step": 40, "phase": "phase1_steady", "loss": 4099.64404296875, "residual_mse": 40.99644088745117, "shape_loss": 5.5901086852827575e-06}
+{"step": 50, "phase": "phase2_full_fixed_w", "loss": 2982.093505859375, "residual_mse": 29.820934295654297, "shape_loss": 1.7028545698849484e-05}
+{"step": 60, "phase": "phase2_full_fixed_w", "loss": 2914.497314453125, "residual_mse": 29.144973754882812, "shape_loss": 1.986680581467226e-05}

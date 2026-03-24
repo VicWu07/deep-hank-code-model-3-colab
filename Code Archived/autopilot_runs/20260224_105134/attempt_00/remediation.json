@@ -1,0 +1,10 @@
+{
+  "attempt": 0,
+  "changes": [
+    "enable_phase1_curriculum=true",
+    "enable_phase2_range_curriculum=true",
+    "enable_active_sampling=true",
+    "w_bisect_steps=16",
+    "w_newton_steps=2"
+  ]
+}

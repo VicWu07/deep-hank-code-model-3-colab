@@ -1,0 +1,37 @@
+{
+  "run_id": "20260224_103146",
+  "attempts": [
+    {
+      "attempt": 0,
+      "pass": false,
+      "checks": {
+        "loss_residual_mse": false,
+        "loss_shape": true,
+        "residual_heatmap_max": false,
+        "wage_clearing_p95": false,
+        "wage_clearing_max": false,
+        "policy_monotonic_W": false,
+        "policy_monotonic_c": true,
+        "sim_no_nan_or_inf": true,
+        "sim_share_high_bounds": true,
+        "sim_max_abs_mean_a": true
+      },
+      "summary": {
+        "residual_mse_final": 377.2854919433594,
+        "shape_loss_final": 1.1486295989016071e-05,
+        "residual_heatmap_max_log10_abs_R": 1.169744757493376,
+        "w_clear_p95_abs": 0.27971189916133876,
+        "w_clear_max_abs": 0.2893936038017273,
+        "policy_slices_monotonic": false,
+        "sim_has_nan_or_inf": false
+      },
+      "config_snapshot": {
+        "enable_phase1_curriculum": false,
+        "enable_phase2_range_curriculum": false,
+        "enable_active_sampling": false,
+        "w_bisect_steps": 8,
+        "w_newton_steps": 1
+      }
+    }
+  ]
+}

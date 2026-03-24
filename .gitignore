@@ -1,0 +1,17 @@
+# macOS / Python caches
+.DS_Store
+__pycache__/
+.ipynb_checkpoints/
+
+# Local virtualenvs
+.venv/
+.venv*/
+
+# Run artifacts (keep source code, ignore generated outputs/checkpoints/logs)
+run_logs/
+mrs_baseline_outputs/
+mrs_ito_outputs/
+mrs_optimized_outputs/
+mrs_optimized_exact_outputs/
+mrs_optimized_exact_chi_*_outputs/
+

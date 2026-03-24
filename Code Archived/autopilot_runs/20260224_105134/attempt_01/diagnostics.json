@@ -1,0 +1,57 @@
+{
+  "run_id": "attempt_01",
+  "config_snapshot": {
+    "batch_size": 24,
+    "phase_steps": [
+      20,
+      20,
+      20,
+      10
+    ],
+    "dt_sim": 0.05,
+    "diag_heatmap_a_points": 12,
+    "diag_heatmap_z_points": 10,
+    "diag_wage_samples": 24,
+    "diag_sim_steps": 28
+  },
+  "artifacts": {
+    "loss_curves": "loss_curves.json",
+    "residual_heatmaps": "residual_heatmaps.json",
+    "wage_clearing": "wage_clearing.json",
+    "policy_slices": "policy_slices.json",
+    "sim_paths": "sim_paths.json"
+  },
+  "thresholds": {
+    "residual_mse_max": 0.001,
+    "shape_loss_max": 0.01,
+    "residual_log10_abs_R_max": -1.5,
+    "w_clear_p95_abs_max": 0.0001,
+    "w_clear_max_abs_max": 0.0005,
+    "policy_max_monotonicity_violations": 0,
+    "sim_max_abs_mean_a": 0.5,
+    "sim_share_high_min": 0.01,
+    "sim_share_high_max": 0.99
+  },
+  "checks": {
+    "loss_residual_mse": false,
+    "loss_shape": true,
+    "residual_heatmap_max": false,
+    "wage_clearing_p95": false,
+    "wage_clearing_max": false,
+    "policy_monotonic_W": false,
+    "policy_monotonic_c": true,
+    "sim_no_nan_or_inf": true,
+    "sim_share_high_bounds": true,
+    "sim_max_abs_mean_a": true
+  },
+  "summary": {
+    "residual_mse_final": 66209.921875,
+    "shape_loss_final": 4.2462303895263176e-07,
+    "residual_heatmap_max_log10_abs_R": 1.1325521235704268,
+    "w_clear_p95_abs": 0.000482448935508728,
+    "w_clear_max_abs": 0.0005701184272766113,
+    "policy_slices_monotonic": false,
+    "sim_has_nan_or_inf": false
+  },
+  "pass": false
+}

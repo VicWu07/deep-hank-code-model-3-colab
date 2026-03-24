@@ -1,0 +1,423 @@
+\documentclass[notitlepage,a4paper,11pt]{report}
+
+
+\usepackage[english]{babel}
+\usepackage{extsizes}
+\usepackage[a4paper,margin=2.5cm,headsep=1cm]{geometry}
+\usepackage{mathptmx}
+\usepackage{fancyhdr}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{systeme}
+\usepackage{physics}
+\usepackage{setspace}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{braket}
+\usepackage{lmodern}
+\usepackage{titling}
+\usepackage[utf8]{inputenc} 
+\usepackage{titlesec}
+\usepackage{authblk}
+\usepackage{amsthm}
+
+\setlength{\headheight}{23.1432pt}
+
+
+
+\let\reportmaketitle=\maketitle
+\renewcommand{\maketitle}{\begingroup\let\footnote=\thanks \reportmaketitle\endgroup}
+\makeatletter
+\renewcommand{\sectionmark}[1]{}
+\renewcommand{\subsectionmark}[1]{}
+\makeatother
+ 
+\titleformat{\chapter}[block]{\bfseries\Huge}{}{0em}{}  % removes "Chapter X" text
+
+% Ensure numbering includes chapter.section.subsection
+\numberwithin{section}{chapter}
+\numberwithin{subsection}{section}
+
+% Display section numbers normally (no blank section numbers)
+\renewcommand{\thesection}{\thechapter.\arabic{section}}
+\renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
+
+% --- Put table of contents on same page as title ---
+\makeatletter
+\def\tableofcontents{\section*{Contents}\@starttoc{toc}}
+\makeatother
+
+
+\newcommand{\expt}[2]{\mathbb{E}_{#1}\left[ #2 \right]}
+\newcommand{\condexpt}[1]{\mathbb{E}\left[ #1 \right]}
+\newcommand{\VAR}[1]{\text{Var} \left[ #1 \right]}
+\newcommand{\vech}[1]{\text{Vech} \left[ #1 \right]}
+\newcommand{\cov}[2]{\text{Cov}_{#1} \left[ #2 \right]}
+\newcommand{\condcov}[1]{\text{Cov} \left[ #1 \right]}
+\newcommand{\VEC}[1]{\text{vec} \left( #1 \right)} 
+\newcommand{\prob}[1]{\mathbb{P} \left( #1 \right)} 
+\newcommand{\flr}[1]{\lfloor #1 \rfloor}
+\newcommand{\iprod}[1]{\langle #1 \rangle}
+
+
+\allowdisplaybreaks[1]
+
+
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{prop}{Proposition}
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}{Definition}[section]
+
+
+
+
+\begin{document}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{DeepHANK \\ \small Seung Hyun Kim and Yifeng (Vic) Wu} 
+\onehalfspacing
+
+
+\title{\huge DeepHANK}
+\author{Kim and Wu}
+
+\maketitle
+
+\tableofcontents
+
+
+
+\chapter{The Model}
+
+
+We study a very very simple HANK model with: 
+\begin{itemize}
+\item No capital
+
+\item No portfolio choice (firms' profits are mechanically redistributed to households) 
+
+\item Perfectly inelastic labor supply
+
+\item No interest rate shocks
+
+\item Only Brownian TFP shocks
+\end{itemize}
+
+
+
+\vspace{1cm}
+
+\section{The Firms' Problem}
+
+\subsection{The Final Good Producer}
+
+
+There is a continuum of competitive final good producers. Each final good producer uses intermediate goods $Y_{jt}$, $j \in [0,1]$ as factors for the production of the final good. The production function is given as a CES aggregator with elasticitiy of substitution $\epsilon>1$: 
+\begin{align*}
+Y_t = \left( \int_0^1 Y_{jt}^{\frac{\epsilon-1}{\epsilon}} dj \right)^{\frac{\epsilon}{1-\epsilon} }. 
+\end{align*}
+Letting $P_t$ be the price of the final good and $P_{jt}$ the price of the $j$th intermediate good, the representative final good producer's time $t$ problem is 
+\begin{align*}
+\max_{ \{ Y_{jt} \}_{j \in [0,1]} } & \left[ P_t Y_t - \int_0^1 P_{jt} Y_{jt} dj \right] \\[10pt]
+\text{subject to} & \quad Y_t = \left( \int_0^1 Y_{jt}^{\frac{\epsilon-1}{\epsilon}} dj \right)^{\frac{\epsilon}{1-\epsilon} }. 
+\end{align*}
+The first order condition for $Y_{jt}$ is given as 
+\begin{align*}
+P_t Y_t^{\frac{1}{\epsilon}} Y_{jt}^{-\frac{1}{\epsilon}} = P_{jt}, 
+\end{align*}
+solving which we obtain the demand for the $j$th intermediate good: 
+\begin{align*}
+Y_{jt } =\left( \frac{ P_{jt}}{P_t} \right)^{-\epsilon} Y_t. 
+\end{align*}
+Substituting this into the CES aggregator shows us that 
+\begin{align*}
+Y_t = Y_t  P_t^{\epsilon} \left( \int_0^1 P_{jt}^{1-\epsilon} dj \right)^{\frac{\epsilon}{1-\epsilon} }, 
+\end{align*}
+so that 
+\begin{align*}
+P_t = \left( \int_0^1 P_{jt}^{1-\epsilon} dj \right)^{\frac{1}{1-\epsilon}}. \\
+\end{align*}
+
+
+
+\pagebreak
+
+
+\subsection{The Intermediate Good Producer}
+
+For each intermediate good there is a single firm that produces that good, so that the intermediate good producers monopolistically supply differentiatied goods. They face the linear production function 
+\begin{align*}
+Y_{jt} =Z_t n_{jt}, 
+\end{align*}
+where $n_{jt}$ is the amount of labor producer $j$ uses and $Z_t$ is TFP. We assume that log TFP $z_t = \log Z_t$ follows a diffusion process 
+\begin{align*}
+dz_t = \mu_{zt} dt + \sigma_z dW_t^0, 
+\end{align*}
+where $\{ W_t^0 \}_{t \in \mathbb{N}}$ is a standard Wiener process. 
+
+Let $\pi_{jt}$ be the time $t$ inflation rate of the price of the $j$th intermediate good, so that $P_{jt}$ evolves according to the process 
+\begin{align*}
+dP_{jt} = \pi_{jt} P_{jt} dt. 
+\end{align*}
+We assume that producer $j$ faces the Rotemburg adjustment cost
+\begin{align*}
+\Psi_t( \pi_{jt} ) = \frac{\psi}{2} (\pi_{jt})^2 Y_t, 
+\end{align*}
+which in terms of real output. In other words, producer $j$ incurs a menu cost if it adjusts the price in any way. 
+
+Let $r_t$ be the real interest rate and $w_t$ the real wage. Now producer $j$'s faces the intertemporal problem 
+\begin{align*}
+\max_{ \{ \pi_{jt} \}_{t \in \mathbb{N}} } & \quad \expt{0}{ \int_0^{\infty} e^{ - \int_0^t r_s ds } \left( \Pi_t( P_{jt} ) - \Psi_t( \pi_{jt } ) \right) dt } \\[10pt]
+\text{subject to} & \quad d P_{jt} = \pi_{jt} P_{jt} dt \\[10pt]
+& \quad \Pi_t( P_{jt} ) =  \left( \frac{P_{jt}}{P_t} \right)^{1-\epsilon} Y_t   - \frac{w_t}{e^{z_t}} \left( \frac{P_{jt}}{P_t} \right)^{-\epsilon} Y_t   \\[10pt]
+& \quad \Psi_t( \pi_{jt} ) = \frac{\psi}{2} (\pi_{jt})^2 Y_t
+\end{align*}
+where everything is in terms of real output. The corresponding HJBE is 
+\begin{align*}
+r_t W_t( P^j ) & = \max_{ \pi^j } \Bigg[  \left( \frac{P^j}{P_t} \right)^{1-\epsilon} Y_t   - \frac{w_t}{e^{z_t} } \left( \frac{P^j}{P_t} \right)^{-\epsilon} Y_t  - \frac{\psi}{2} (\pi^j)^2 Y_t + \partial_{P^j} W_t( P^j )  \pi^j P^j \Bigg]  + \partial_t W_t( P^j ), 
+\end{align*}
+where we suppress the dependence of $W_t( P^j)$ on $z_t, r_t, w_t ,P_t, Y_t$. 
+
+The equilibrium path of $\{ \pi_{jt}, P_{jt} \}_{t \in \mathbb{N}}$ satisifes the first order condition 
+\begin{align*}
+\psi \pi_{jt} Y_t = \partial_{P^j} W_t( P_{jt} ) P_{jt}, 
+\end{align*}
+while the envelope condition with respect to $P^j$ tells us that 
+\begin{align*}
+r_t \partial_{P^j} W_t( P_{jt} ) & = \left( (1-\epsilon) + \epsilon \frac{w_t}{ p_{jt} e^{z_t}}\right) p_{jt}^{-\epsilon} \frac{Y_t}{P_t}  \\[10pt]
+& \quad + \partial_{P^j P^j} W_t(P_{jt}) \pi_{jt} P_{jt}  + \partial_{P^j} W_t(P_{jt}) \pi_{jt} \\[10pt]
+& \quad + \partial_{P^j t } W_t( P_{jt}), 
+\end{align*}
+where $p_{jt} = \frac{P_{jt}}{P_t}$ is the relative price of good $j$. Using the first order condition and multiplying both sides by $\frac{1}{\psi} \frac{P_{jt}}{Y_t}$,  we can rewrite the envelope condition as 
+\begin{align*}
+r_t  \pi_{jt} & = \frac{\epsilon}{ \psi} \left( \frac{ 1-\epsilon}{\epsilon}  +  \frac{w_t}{ p_{jt} e^{z_t} } \right) p_{jt}^{1-\epsilon} \\[10pt]
+& \quad +\frac{1}{\psi} \left[ \left( \partial_{P^j P^j} W_t(P_{jt}) \frac{P_{jt}}{Y_t} + \partial_{P^j} W_t(P_{jt}) \frac{1}{Y_t} \right) \pi_{jt} P_{jt} + \partial_{P^j t} W_t(P_{jt} ) \frac{P_{jt}}{Y_t} \right] \\
+\end{align*}
+
+
+To obtain the diffusion for $\pi_{jt}$, note from the first order condition that 
+\begin{align*}
+\pi_{jt} = \frac{1}{\psi} \partial_{P^j} W_t(P_{jt} ) \frac{P_{jt}}{Y_t}. 
+\end{align*}
+Defining the mapping $f(t, P^j, Y)$ as 
+\begin{align*}
+f(t, P^j, Y) = \frac{1}{\psi} \partial_{P^j} W_t(P^j ) \frac{P^j}{Y}, 
+\end{align*}
+Ito's lemma tells us that 
+\begin{align*}
+d \pi_{jt} & = \frac{\partial f(t,P_{jt}, Y_t)}{\partial t} dt + \frac{\partial f(t,P_{jt}, Y_t) }{\partial P^j} dP_{jt} +   \frac{\partial f(t,P_{jt}, Y_t) }{\partial Y} dY_t + \frac{1}{2} \frac{\partial^2 f(t, P_{jt}, Y_t) }{\partial Y^2} (dY_t)^2 \\[10pt]
+& = \frac{1}{\psi} \left[ \partial_{P^j t } W_t( P_{jt}) \frac{P_{jt}}{Y_t}  +  \left( \partial_{P^j P^j} W_t(P_{jt}) \frac{P_{jt}}{Y_t} + \partial_{P^j} W_t(P_{jt}) \frac{1}{Y_t} \right) \pi_{jt} P_{jt} \right] dt  \\[10pt]
+& \quad - \frac{1}{\psi} \partial_{P^j} W_t(P_{jt} ) \frac{P_{jt}}{Y_t} \left( \frac{dY_t}{Y_t} \right) + \frac{1}{\psi} \partial_{P^j} W_t(P_{jt}) \frac{P_{jt}}{Y_t} \left( \frac{dY_t}{Y_t} \right)^2, 
+\end{align*}
+where there are no second order terms involving $dP_{jt}$ because it consists only of a drift term. 
+
+Now the rewritten envelope condition immediately tells us that the drift term above can be expressed as 
+\begin{align*}
+r_t  \pi_{jt} - \frac{\epsilon}{ \psi} \left( \frac{ 1-\epsilon}{\epsilon}  +  \frac{w_t}{ p_{jt} e^{z_t} } \right) p_{jt}^{1-\epsilon}, 
+\end{align*} 
+so that $\pi_{jt}$ evolves according to
+\begin{align*}
+d\pi_{jt} & = \left[ r_t  \pi_{jt} - \frac{\epsilon}{ \psi} \left( \frac{ 1-\epsilon}{\epsilon}  +  \frac{w_t}{ p_{jt} e^{z_t} } \right) p_{jt}^{1-\epsilon} \right] dt  +\pi_{jt} \left[  \left( \frac{dY_t}{Y_t} \right)^2 - \frac{dY_t}{Y_t}  \right].  
+\end{align*}
+
+
+
+\pagebreak
+
+
+
+
+\section{The Household's Problem} 
+
+There is a continuum of households indexed by $i \in [0,1]$ that chooses how much to consume each period and saves in or borrows from a bond in zero net supply subject to borrowing constraints. We abstract from two aspects of the household problem: labor and portfolio choice. For labor supply, we assume that households face uninsurable shocks to employment status in the form of an exogenous Poisson process, while we abstract from the portfolio choice problem by assuming that each household receives a fixed and equal share of each intermediate good producer's profits each period. Finally, we deal with adjustment costs by assuming that each household receives a fixed and equal tax rebate each period corresponding to the firm adjustment costs. 
+
+Suppose that household $i$ believes that the time $t$ interest rate, wage and profits are given as $\tilde{r}_t$, $\tilde{w}_t$ and $\tilde{\Pi}_t$. Under these beliefs, household $i$'s problem can be written as 
+\begin{align*}
+\max_{ \{ c_{it} \}_{t \in \mathbb{N}}} & \quad \expt{0}{ \int_0^{\infty} e^{-\rho t} u( c_{it} ) dt  } \\[10pt]
+\text{subject to} & \quad d \begin{bmatrix}
+a_{it} \\
+n_{it} 
+\end{bmatrix} = \begin{bmatrix}
+\tilde{r}_t a_{it} + w_t n_{it} - c_{it} + \tilde{\Pi}_t \\
+0 
+\end{bmatrix}  dt + \begin{bmatrix}
+0 \\
+\check{n}_{it} - n_{it} 
+\end{bmatrix} d N_t^i
+ \\[10pt]
+& \quad a_{it} \geq \underline{a}, 
+\end{align*}
+where $\{ N_t^i \}_{t \geq 0}$ is a Poisson process with intensity $\lambda(N_t^i)$ that is independent across households. 
+
+The corresponding HJBE of the household is given as 
+\begin{align*}
+\rho V_t( a,n) & = \max_{ c \geq 0} \Bigg[ u(c) + \partial_a V_t(a,n) \left( \tilde{r}_{t}  a + \tilde{w}_t n - c + \tilde{\Pi}_t \right) \\
+& \quad + \lambda(n) \left( V_t(a, \check{n}) - V_t( a, n) \right)  \Bigg] + \partial_t V_t(a,n) \\[10pt]
+\text{subject to} & \quad u'( \tilde{w}_t n + \tilde{r}_t \underline{a} + \tilde{\Pi}_t ) \leq \partial_a V_t(\underline{a}, n), 
+\end{align*}
+where the dependence of $V_t(\cdot)$ on the beliefs $\tilde{r}_{t}, \tilde{w}_t, \tilde{\Pi}_t$ is suppressed. The first order condition for consumption is, as usual, given as 
+\begin{align*}
+u'( c_t(a,n)) = \partial_a V_t(a,n) 
+\end{align*}
+for $a > \underline{a}$. Finally, we denote the density of the wealth and employment status distribution at time $t$ by $g_t(\cdot)$.  
+
+
+Since the evolution of $a_{it}$ does not depend directly on the aggregate source of risk $W_t^0$, it follows that the KFE is given as 
+\begin{align*}
+\partial_t g_t( a,n \mid \tilde{r}_t, \tilde{w}_t, \tilde{\Pi}_t ) & = - \partial_a \left[ \left( \tilde{r}_t a + w_t n - c_t(a,n) + \tilde{\Pi}_t\right) g_t(a,n \mid \tilde{r}_t, \tilde{w}_t, \tilde{\Pi}_t )  \right] \\
+& \quad + \lambda(\check{n}) g_t( a,\check{n} \mid \tilde{r}_t, \tilde{w}_t, \tilde{\Pi}_t )  - \lambda(n) g_t( a,n \mid \tilde{r}_t, \tilde{w}_t, \tilde{\Pi}_t ). 
+\end{align*}
+
+
+
+
+\pagebreak
+
+
+
+\section{The Interest Rate Rule and Equilibrium}
+
+\subsection{The Interest Rate Rule}
+
+We assume that the central bank sets the nominal interest rate according to the rule 
+\begin{align*}
+i_t = r^* + \phi_{\pi} \pi_t, 
+\end{align*}
+where there are no interest rate shocks at the moment. The model is closed by the Fisher equation $i_t = r_t + \pi_t$, so that the interest rate $r_t$ is determined as 
+\begin{align*}
+r_t = r^* + (\phi_{\pi} -1 )\pi_t. 
+\end{align*}
+Under the active monetary policy assumption $\phi_{\pi} >1$, this equation implies that the real interest rate moves in the same direction as inflation $\pi_t$. \\
+
+
+\vspace{1cm}
+
+
+\subsection{Rational Expectations Equilibrium}
+
+In a symmetric equilibrium, $P_{jt}$ is equal across $j$, so that $P_{jt} = P_t$ and every intermediate good producer demands the same amount of labor. By implication, $Y_{jt} = Y_t$ for any $j$ and $t$, and aggregate labor demand is given by 
+\begin{align*}
+N_t^d = \int_0^1 n_{jt}^d dj = \frac{Y_t}{e^{z_t}}. 
+\end{align*}
+Furthermore, the inflation rate $\pi_t$ corresponding to the price $P_t$ of the final good is the same as the inflation rate $\pi_{jt}$ governing the evolution of the price $P_{jt}$ of the $j$th intermediate good, and we have the usual NKPC 
+\begin{align*}
+d\pi_t = \left[ r_t \pi_t + \frac{\epsilon}{\psi} \left( \frac{\epsilon-1}{\epsilon}- \frac{w_t}{e^{z_t} } \right) \right] dt + \pi_t \left[ \left( \frac{dY_t}{Y_t} \right)^2 - \frac{dY_t}{Y_t} \right], 
+\end{align*}
+which in light of the interest rate rule can alternatively be written as 
+\begin{align*}
+d \pi_t = \Bigg[ r^* \pi_t + (\phi_{\pi} -1)\pi_t^2 +  \frac{\epsilon}{\psi} \left( \frac{\epsilon-1}{\epsilon} - \frac{w_t}{e^{z_t}} \right) \Bigg] dt + \pi_t \left[ \left( \frac{dY_t}{Y_t} \right)^2 - \frac{dY_t}{Y_t} \right]. 
+\end{align*}
+Finally, the real profits cum-adjustment costs of the intermediate good producers are all equal to 
+\begin{align*}
+\Pi_t = \left( 1 - \frac{w_t}{e^{z_t}} + \frac{\psi}{2} \pi_t^2  \right) Y_t. 
+\end{align*}
+As noted, this is always non-negative. 
+
+
+\pagebreak
+
+
+A symmetric REE in this model is a collection of stochastic processes $\{ c_{it}, g_t(\cdot), P_t, Y_t, q_t = (\mu_{rt}, \sigma_{rt}, w_t, \Pi_t) \}_{i \in [0,1], t \in \mathbb{N}}$ such that: 
+\begin{enumerate}[label=\arabic*)]
+\item Given the belief $\tilde{q}_t = (\tilde{\mu}_{rt}, \tilde{\sigma}_{rt}, \tilde{w}_t, \tilde{\Pi}_t)$ about the price processes, $\{c_{it} \}_{t \in \mathbb{N}}$ solves the household's problem for each $i \in [0,1]$. \\
+
+
+\item The intermediate good producers' optimality condition (the NKPC) is satisfied: 
+\begin{align*}
+d \pi_t = \Bigg[ r^* \pi_t + (\phi_{\pi} -1)\pi_t^2 +  \frac{\epsilon}{\psi} \left( \frac{\epsilon-1}{\epsilon} - \frac{w_t}{e^{z_t}} \right) \Bigg] dt + \pi_t \left[ \left( \frac{dY_t}{Y_t} \right)^2 - \frac{dY_t}{Y_t} \right]. \\
+\end{align*}
+
+
+
+\item The market clearing conditions are satisfied: 
+\begin{align*}
+ \frac{Y_t}{e^{z_t}} &  = N^* := \sum_{j=1}^2 n_j \int_0^1 g_t(a,n_j) da \tag{Labor Market} \\[10pt]
+0 & =\sum_{j=1}^2\int_0^1 a g_t(a,n_j) da \tag{Bond Market} \\[10pt]
+\int_0^1 c_{it} di & = Y_t \tag{Goods Market (Redundant)} \\[10pt]
+\end{align*}
+
+
+\item The real interest rate is determined by the interest rate rule: 
+\begin{align*}
+r_t = r^* + (\phi_{\pi} -1 ) \pi_t. \\
+\end{align*}
+
+
+\item Beliefs are consistent, so that $\tilde{q}_t = q_t$. \\
+
+\end{enumerate}
+
+
+\pagebreak
+
+
+\section{The Master Equation}
+
+In symmetric REE, $Y_t = e^{z_t} N^*$, so by Ito's lemma 
+\begin{align*}
+\frac{dY_t}{Y_t} & = \left( \mu_{zt}  + \frac{1}{2} \sigma_z^2 \right) dt + \sigma_z dW_t^0 \\[10pt]
+\left( \frac{dY_t}{Y_t}  \right)^2 & = \sigma_z^2 dt, 
+\end{align*}
+so that the NKPC can be written as 
+\begin{align*}
+d \pi_t = \Bigg[ r^* \pi_t + (\phi_{\pi} -1)\pi_t^2 +  \frac{\epsilon}{\psi} \left( \frac{\epsilon-1}{\epsilon} - \frac{w_t}{e^{z_t}} \right) - \left( \mu_{zt} - \frac{1}{2} \sigma_z^2 \right) \pi_t \Bigg] dt - \sigma_z \pi_t dW_t^0. 
+\end{align*}
+In this context belief consistency requires 
+\begin{align*}
+\tilde{r}_t = r_t = r^* + \phi_{\pi} \pi_t  \quad \tilde{w}_t = w_t, \quad \tilde{\Pi}_t = \Pi_t. 
+\end{align*}
+Finally, the wage each period can be obtained from the bond market clearing condition as a function of the aggregate states, which are log TFP $z_t$, inflation $\pi_t$ and the wealth distribution $g_t(\cdot)$. 
+
+Now equilibrium in this economy can be characterized by one master equation. In the fully recursive formulation of the household's problem, the household's value function depends on the individual states $a,n$ and the aggregate stats $z, \pi, g$. The state variables are known to evolve according to 
+\begin{align*}
+d a_t & = s(a_t, n_t, z_t, \pi_t, g_t) dt \\[10pt]
+d n_t & = \left( \check{n_t} - n_t \right) dN_t \\[10pt]
+dz_t & = \mu_z(z_t) dt + \sigma_z dW_t^0 \\[10pt]
+d \pi_t & = \mu_{\pi} \left( z_t, \pi_t, g_t \right) dt - \sigma_z \pi_t dW_t^0 \\[10pt]
+d g_t(a,n) & = \mu_g ( a,n ; z_t, \pi_t, g_t) dt 
+\end{align*}
+where
+\begin{align*}
+s(a,n, z,\pi, g) & = r(z,\pi,g) a + w(z,\pi,g) n - (u')^{-1} \left[ \partial_a V(a,n,z, \pi,g) \right] + \Big[  \left( 1 +  \frac{\psi}{2} \pi^2 \right) e^z - w(z,\pi,g)    \Big]  N^* \\[10pt]
+\mu_{\pi}( z,\pi, g) & = r^* \pi + (\phi_{\pi} - 1) \pi^2 + \frac{\epsilon}{\psi} \left( \frac{\epsilon-1}{\epsilon} - \frac{w(z,\pi,g) }{e^{z}} \right)  -  \left( \mu_z(z) - \frac{1}{2} \sigma_z^2 \right) \pi \\[10pt]
+\mu_g ( a,n ; z, \pi, g)  & =  - \partial_a \left( s(a,n, z, \pi, g) g(a,n) \right) + \lambda(\check{n}) g(a,\check{n} ) - \lambda(n) g(a,n) \\[10pt]
+r(z,\pi,g) & = r^* + \phi_{\pi} \pi 
+\end{align*}
+
+Therefore, the master equation is given as 
+\begin{align*}
+\rho V(a,n,z,\pi,g) & = u \left(  (u')^{-1} \left[ \partial_a V(a,n,z, \pi,g) \right]  \right) \tag{Flow Utility + FOC} \\[10pt]
+& \quad + \partial_a V(a,n,z,\pi,g) s(a,n,z,\pi,g)  \tag{Individual Wealth} \\[10pt]
+& \quad + \lambda(n) \Big( V(a,\check{n},z,\pi,g)- V(a,n,z,\pi,g) \Big)\tag{Individual Labor Supply} \\[10pt]
+& \quad + \mu_z(z) \partial_z V(a,n,z,\pi,g) + \frac{1}{2} \sigma_z^2 \partial_{zz} V(a,n,z,\pi,g) \tag{TFP} \\[10pt]
+& \quad + \mu_{\pi}(z,\pi,g) \partial_{\pi} V(a,n,z,\pi,g)+ \frac{1}{2} \sigma_z^2 \pi^2 \partial_{\pi \pi} V(a,n,z,\pi,g) \tag{Inflation} \\[10pt]
+& \quad + \sum_{j=1}^2 \int_{\underline{a}}^{\infty} \frac{\partial V(a,n,z,\pi,g(a',n_j)) }{\partial f} \mu_g( a', n_j ; z,\pi, g) da'  \tag{Wealth Distribution}  \\[20pt]
+\text{subject to} & \quad u' \Big[ w(z,\pi,g) n + r(z,\pi,g) \underline{a} + \frac{\psi}{2} \pi^2 e^z N^*  \Big] \leq \partial_a V(\underline{a}, n, z, \pi, g)  \tag{Boundary Constraint} 
+\end{align*}
+where 
+\begin{align*}
+(a',n_j) \mapsto \frac{\partial V(a,n,z,\pi,g(a',n_j)) }{\partial f}  
+\end{align*}
+is the Frechet derivative of $V(a,n, z, g)$ with respect to the distribution $g$ evaluated at the point $(a',n_j)$ on the state space. 
+
+
+In practice, we will impose a penalty function instead of a hard borrowing limit, and approximate the wealth distribution using a finite number of agents. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}

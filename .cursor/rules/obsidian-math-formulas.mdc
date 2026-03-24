@@ -1,0 +1,26 @@
+---
+description: Use Obsidian math syntax in markdown prepared for Obsidian
+globs: "**/*.md"
+alwaysApply: true
+---
+
+# Obsidian math formulas
+
+When preparing or editing markdown in this vault (including Cursor plan files), use **dollar-delimited math**:
+  - **Inline math**: `$...$`
+  - **Block (display) math**: `$$...$$`
+
+Avoid `\(...\)` and `\[...\]` in markdown here, because they don’t consistently render in all viewers (Cursor preview, Obsidian, GitHub, Pandoc).
+
+- **Inline math**: `$...$` (single dollar signs)
+  - ✅ `$e^{i\pi} + 1 = 0$`
+  - ❌ `\(e^{i\pi} + 1 = 0\)`
+- **Block (display) math**: `$$...$$` (double dollar signs, optionally on their own lines)
+  - ✅ `$$\frac{a}{b}$$` or `$$\n...\n$$`
+  - ❌ `\[...\]`
+
+Convert any LaTeX-style delimiters to Obsidian form:
+- Replace `\(` and `\)` with `$` for inline math.
+- Replace `\[` and `\]` with `$$` for block math.
+
+This ensures formulas render correctly in Obsidian’s reading and preview modes.

@@ -1,0 +1,6 @@
+# Keep torch from the selected Colab runtime image.
+# Install/upgrade only the numerical + plotting stack used by this project.
+numpy==1.26.4
+scipy==1.11.4
+matplotlib==3.8.4
+

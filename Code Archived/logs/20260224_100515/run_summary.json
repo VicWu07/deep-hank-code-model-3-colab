@@ -1,0 +1,6 @@
+{
+  "steps": 64,
+  "final_phase": "phase3_outer_replay",
+  "final_step": 64.0,
+  "final_loss": 4653.728515625
+}
